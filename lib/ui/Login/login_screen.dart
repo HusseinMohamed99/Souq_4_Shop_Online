@@ -11,10 +11,7 @@ class LoginScreen extends StatelessWidget {
 
   var formKey = GlobalKey<FormState>();
   TextEditingController userNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  TextEditingController mobileNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -87,9 +84,6 @@ class LoginScreen extends StatelessWidget {
                         validate: (value) {
                           if (value == null || value.trim().isEmpty) {
                             return 'Please enter password';
-                          }
-                          if (confirmPasswordController != passwordController) {
-                            return 'password isn\'t same';
                           }
                           return null;
                         },
