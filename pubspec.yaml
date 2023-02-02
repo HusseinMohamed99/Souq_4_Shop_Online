@@ -46,5 +46,7 @@ flutter:
   assets:
     - assets/images/
     - assets/lottie/
+
+
 flutter_intl:
   enabled: true
