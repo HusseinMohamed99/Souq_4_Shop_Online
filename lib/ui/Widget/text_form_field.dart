@@ -78,7 +78,7 @@ class DefaultTextFormField extends StatelessWidget {
               : null,
           focusedBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(12.0),
+              Radius.circular(15.0),
             ),
             borderSide: BorderSide(
               color: Colors.black,
@@ -87,12 +87,12 @@ class DefaultTextFormField extends StatelessWidget {
           hintText: hint,
           enabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(12.0),
+              Radius.circular(15.0),
             ),
           ),
           errorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(12.0),
+              Radius.circular(15.0),
             ),
             borderSide: BorderSide(
               color: Colors.red,
@@ -100,7 +100,7 @@ class DefaultTextFormField extends StatelessWidget {
           ),
           focusedErrorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(12.0),
+              Radius.circular(15.0),
             ),
             borderSide: BorderSide(
               color: Colors.red,

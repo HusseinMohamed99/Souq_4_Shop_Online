@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:souq_4_shop_online/ui/Widget/bottons.dart';
+import 'package:souq_4_shop_online/apis/api_manager.dart';
+import 'package:souq_4_shop_online/components/adaptive/dialog.dart';
+import 'package:souq_4_shop_online/ui/Widget/bottoms.dart';
 import 'package:souq_4_shop_online/ui/Widget/text_form_field.dart';
 import 'package:souq_4_shop_online/ui/Widget/text_label.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   static const String routeName = 'register';
-  RegisterScreen({super.key});
 
+  const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   var formKey = GlobalKey<FormState>();
+
   TextEditingController userNameController = TextEditingController();
+
   TextEditingController emailController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
   TextEditingController confirmPasswordController = TextEditingController();
+
   TextEditingController mobileNumberController = TextEditingController();
 
   @override
@@ -50,7 +63,7 @@ class RegisterScreen extends StatelessWidget {
                           }
                           return null;
                         },
-                        hint: 'enter your full name',
+                        hint: 'Enter your full name',
                       ),
                       const DefaultTextLabel(textLabel: 'Mobile Number'),
                       DefaultTextFormField(
@@ -64,7 +77,7 @@ class RegisterScreen extends StatelessWidget {
                           }
                           return null;
                         },
-                        hint: 'enter your mobile no.',
+                        hint: 'Enter your mobile no.',
                       ),
                       const DefaultTextLabel(textLabel: 'Email Address'),
                       DefaultTextFormField(
@@ -78,7 +91,7 @@ class RegisterScreen extends StatelessWidget {
                           }
                           return null;
                         },
-                        hint: 'enter your email address',
+                        hint: 'Enter your email address',
                       ),
                       const DefaultTextLabel(textLabel: 'Password'),
                       DefaultTextFormField(
@@ -91,16 +104,17 @@ class RegisterScreen extends StatelessWidget {
                           if (value == null || value.trim().isEmpty) {
                             return 'Please enter password';
                           }
-                          if (confirmPasswordController !=passwordController)
-                          {
+                          if (confirmPasswordController.text !=
+                              passwordController.text) {
                             return 'password isn\'t same';
                           }
                           return null;
                         },
-                        hint: 'enter your password',
+                        hint: 'Enter password',
                         suffix: Icons.remove_red_eye_outlined,
                       ),
-                      const DefaultTextLabel(textLabel: 'Password'),
+                      const DefaultTextLabel(
+                          textLabel: 'Confirmation Password'),
                       DefaultTextFormField(
                         context: context,
                         controller: confirmPasswordController,
@@ -111,21 +125,24 @@ class RegisterScreen extends StatelessWidget {
                           if (value == null || value.trim().isEmpty) {
                             return 'Please re-enter password';
                           }
-                          if (confirmPasswordController !=passwordController)
-                          {
-                            return 'password isn\'t same';
+                          if (confirmPasswordController.text !=
+                              passwordController.text) {
+                            return "password isn't same";
                           }
                           return null;
                         },
-                        hint: 're-enter your password',
+                        hint: 'Re-enter password',
                         suffix: Icons.remove_red_eye_outlined,
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       DefaultButton(
-                          text: 'Sign up',
-                          function: () {
-                            registerValidate();
-                          },
-                          isUpperCase: false),
+                        text: 'Sign up',
+                        function: () {
+                          registerValidate();
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -137,9 +154,30 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  void registerValidate() {
+  void registerValidate() async {
     if (formKey.currentState?.validate() == false) {
       return;
+    }
+    MyDialog.showLoadingDialog(context, 'Loading...');
+    try {
+      var response = await ApisManager.register(
+          userNameController.text,
+          mobileNumberController.text,
+          passwordController.text,
+          confirmPasswordController.text,
+          emailController.text);
+      MyDialog.hideDialog(context);
+      if (response.errors != null) {
+        MyDialog.showMessage(context, response.joinErrors(),
+            posActionTitle: 'Ok');
+        return;
+      } else {
+        MyDialog.showMessage(context, 'Sign Up is Successfully',
+            posActionTitle: 'Ok');
+      }
+    } catch (error) {
+      MyDialog.hideDialog(context);
+      MyDialog.showMessage(context, 'Error ,$error');
     }
   }
 }

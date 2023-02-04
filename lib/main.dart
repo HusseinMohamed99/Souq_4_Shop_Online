@@ -42,8 +42,8 @@ class MyApp extends StatelessWidget {
             routes: {
               HomeScreen.routeName: (_) => const HomeScreen(),
               SplashScreen.routeName: (_) => const SplashScreen(),
-              LoginScreen.routeName: (_) =>  LoginScreen(),
-              RegisterScreen.routeName: (_) => RegisterScreen(),
+              LoginScreen.routeName: (_) => LoginScreen(),
+              RegisterScreen.routeName: (_) => const RegisterScreen(),
             },
             initialRoute: SplashScreen.routeName,
           );
